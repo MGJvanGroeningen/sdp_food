@@ -29,7 +29,7 @@ covariate_scaler = StandardScaler().fit(X_train)
 scaled_X_train = covariate_scaler.transform(X_train)
 scaled_X_test = covariate_scaler.transform(X_test)
 
-bin_classifier = LogisticRegression().fit(X = scaled_X_train, y = y_train)
+bin_classifier = LogisticRegression(class_weight = {False: 3.5, True: 2}).fit(X = scaled_X_train, y = y_train)
 five_star_prediction = bin_classifier.predict(X = scaled_X_test)
 
 print(confusion_matrix(y_true = y_test, y_pred = five_star_prediction))
