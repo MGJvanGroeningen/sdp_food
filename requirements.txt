@@ -3,4 +3,4 @@ pandas
 fastparquet
 kaggle
 matplotlib
-sklearn
+scikit-learn
