@@ -1,0 +1,20 @@
+import numpy as np
+import pandas as pd
+import os
+from sklearn.linear_model import LogisticRegression
+
+# Load recipes data
+
+data_folder = './data'
+data_file = 'cleaned_data.parquet'
+
+recipes_data = pd.read_parquet(os.path.join(data_folder, data_file))
+
+recipes_data.columns
+recipes_data.describe()
+
+is_five_stars = recipes_data['AggregatedRating'] == 5
+covariate_dataFrame = recipes_data['CookTime', 'PrepTime','CaloriesPDV', 
+        'FatPDV','SaturatedFatPDV', 'CholesterolPDV', 'SodiumPDV', 
+        'CarbohydratePDV', 'FiberPDV', 'SugarPDV', 'ProteinPDV']
+
