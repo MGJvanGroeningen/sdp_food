@@ -38,3 +38,4 @@ conf_mat_disp = ConfusionMatrixDisplay.from_estimator(estimator = bin_classifier
                                                       X = scaled_X_test, y = y_test, normalize = 'all')
 
 plt.pyplot.show()
+
