@@ -10,15 +10,26 @@ cleaned_file = 'cleaned_data.parquet'
 
 og_data = pd.read_parquet(os.path.join(clean_data_folder, recipes_file))
 
+#Feature engineering:
+#Avg. length instructions & amount rows instruction
+avgLength, noInstructions = [], []
+for index, recipe in og_data.iterrows():
+    instructions = recipe['RecipeInstructions']
+    noInstructions.append(len(instructions))
+    avgLength.append(len(''.join(instructions))/max(len(instructions), 1))
+
+og_data['avgLength'] = avgLength
+og_data['noInstructions'] = noInstructions
+
 # Select appropriate columns
 
 required_columns = ['RecipeId', 'CookTime', 'PrepTime', 'TotalTime', 'RecipeCategory',
                     'AggregatedRating', 'ReviewCount', 'Calories', 
                     'FatContent', 'SaturatedFatContent', 'CholesterolContent', 'SodiumContent', 
-                    'CarbohydrateContent', 'FiberContent', 'SugarContent', 'ProteinContent']
+                    'CarbohydrateContent', 'FiberContent', 'SugarContent', 'ProteinContent',
+                    'avgLength', 'noInstructions']
 
 clean_data = og_data[required_columns]
-
 # Remove rows with missing values
 
 clean_data = clean_data.dropna()
@@ -94,9 +105,6 @@ for columnName in daily_values.keys():
     newName = columnName.replace('Content', '')
     newName = newName + 'PDV'
     clean_data = clean_data.rename(columns={columnName:newName})
-
-clean_data.dtypes
-
 
 
 clean_data.to_parquet(os.path.join(clean_data_folder, cleaned_file))
